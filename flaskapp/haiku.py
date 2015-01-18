@@ -55,6 +55,7 @@ def is_haiku(msg, app, wordcounts):
         if count == 17 and check575(haiku_msg, app, wordcounts):
             return haiku_msg
         elif count > 17:
+            '''
             stopwords = ["a", "the", "my" ] #FIXME update list
             for stopword in stopwords: 
                 i = 0
@@ -68,6 +69,12 @@ def is_haiku(msg, app, wordcounts):
                     i += 1
                 pass
             pass
+            '''
+            while count > 17:
+                last_word = haiku_msg.pop()
+                count -= wordcounts[last_word]
+                if count == 17 and check575(haiku_msg, app, wordcounts):
+                    return haiku_msg 
         elif count < 17 and count >= 12:
             for i in range(17 - count):
                 haiku_msg.append("ha")
