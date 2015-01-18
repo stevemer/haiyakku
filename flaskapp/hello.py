@@ -4,6 +4,8 @@ from YikYak import *
 from haiku import is_haiku
 from htmls import htmls
 
+used_yaks = dict()
+
 app = Flask(__name__)
 # log to stderr
 # log to stderr
@@ -28,6 +30,8 @@ HTML_MESSAGE = \
 
 @app.route('/')
 def hello():
+    global used_yaks
+
     app.logger.warning("HELLO WORLD WHAT IS GOING ON!")
     wordcounts = dict()
 
@@ -72,7 +76,14 @@ def hello():
             stanza0 = ' '.join(line1)
             stanza1 = ' '.join(line2)
             stanza2 = ' '.join(line3)
-            return htmls.format(stanza0, stanza1, stanza2)
+            stanza0 = stanza0[0].upper() + stanza0[1:]
+            stanza1 = stanza1[0].upper() + stanza1[1:]
+            stanza2 = stanza2[0].upper() + stanza2[1:]
+            if not str(stanza0) in used_yaks:
+                used_yaks[str(stanza0)] = True
+                return htmls.format(stanza0, stanza1, stanza2)
+            else:
+                continue
             pass
     return "Couldn't find any decent haiyakkus!"
 

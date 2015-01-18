@@ -9,33 +9,24 @@ def check575(haiku, app, wordcounts):
         else:
             return False
     if count > 5: return False
-    app.logger.debug("MIDDLE CHECK")
     while count < 12:
         if index < len(haiku):
-            count += wordcounts[haiku[index]]  # wordcounts[index]
+            count += wordcounts[haiku[index]]
             index += 1
         else:
             return False
     if count > 12: return False
-    app.logger.debug("ENDING CHECK")
     while count < 17:
         if index < len(haiku):
-            try: count += wordcounts[haiku[index]]
-            except BaseException as e:
-                app.logger.warning("THIS HAPPENED: {}".format(e))
-                raise e
+            count += wordcounts[haiku[index]]
             index += 1
         else:
             return False
-    app.logger.debug("FINAL CHECK")
     if count > 17: return False
     if index < len(haiku) - 1: return False
     else: return True 
 
 def is_haiku(msg, app, wordcounts):
-    # REQUIRES: Message
-    # EFFECTS: Returns a valid haiku in the format: [ first line, second line, third line ]
-    #          If no valid haiku is found, returns None
     missing = open("missing_words.txt", "a")
     words = msg.split(' ')
     count = 0
