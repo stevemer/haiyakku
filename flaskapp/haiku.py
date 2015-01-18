@@ -51,37 +51,40 @@ def is_haiku(msg, app, wordcounts):
     # Here we begin our logic    
 
     app.logger.warning("Starting parsing: {}".format(haiku_msg))
-    try:
-        if count == 17 and check575(haiku_msg, app, wordcounts):
-            return haiku_msg
-        elif count > 17:
-            '''
-            stopwords = ["a", "the", "my" ] #FIXME update list
-            for stopword in stopwords: 
-                i = 0
-                while i < len(haiku_msg):
-                    if haiku_msg[i] == stopword:
-                        haiku_msg.pop(i)
+    if count == 17 and check575(haiku_msg, app, wordcounts):
+        return haiku_msg
+    elif count > 17:
+        # make copy first
+        haikulist = []
+        for hword in haiku_msg:
+            haikulist.append(hword)
+        stopwords = [x.strip() for x in open("stopwords.txt", "rU").readlines()]
+        stopword_index = 0
+        countcopy = count
+        message_index = 0
+        while count > 17 and stopword_index < len(stopwords):
+            while message_index < len(haikulist):
+                if haikulist[message_index] == stopwords[stopword_index]:
+                    haikulist.pop(message_index)
+                    try:
+                        count -= wordcounts[stopwords[stopword_index]]
+                    except KeyError:
                         count -= 1
-                        if count == 17 and check575(haiku_msg, app, wordcounts):
-                            return haiku_msg
-                        pass
-                    i += 1
-                pass
-            pass
-            '''
-            while count > 17:
-                last_word = haiku_msg.pop()
-                count -= wordcounts[last_word]
-                if count == 17 and check575(haiku_msg, app, wordcounts):
-                    return haiku_msg 
-        elif count < 17 and count >= 12:
-            for i in range(17 - count):
-                haiku_msg.append("ha")
-            if check575(haiku_msg, app, wordcounts): 
-                return haiku_msg
-        app.logger.warning("Ending parsing: {}".format(haiku_msg))
-    except BaseException as e:
-        return "No haiku found due to exception thrown: {0} with haiku: {1}!".format(e, haiku_msg)
+                    if count == 17 and check575(haikulist, app, wordcounts):
+                        return haikulist
+                message_index += 1
+            stopword_index += 1
+
+        count = countcopy 
+        while count > 17:
+            last_word = haiku_msg.pop()
+            count -= wordcounts[last_word]
+            if count == 17 and check575(haiku_msg, app, wordcounts):
+                return haiku_msg 
+    elif count < 17 and count >= 12:
+        for i in range(17 - count):
+            haiku_msg.append("ha")
+        if check575(haiku_msg, app, wordcounts): 
+            return haiku_msg
     return "No haiku found!"
                         
