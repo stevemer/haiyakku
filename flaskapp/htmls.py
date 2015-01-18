@@ -43,5 +43,9 @@ htmls = """\
 			</span>
 		</div>
 	</div>
+    <div id="refresh button">
+        <button type="button" class="btn btn-primary" id="still-life-btn" onClick="window.location.reload()">More poetry!</button>
+    
+    </div>
 </body>
 </html>"""
