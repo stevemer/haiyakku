@@ -27,7 +27,7 @@ htmls = """\
 <body>
 	<div class="jumbotron text-center">
 		<div class="container">
-			<h1>Welcome to Haiyakkus!</h1>
+			<h1>YaKu - Only The Finest of Poetry</h1>
 		</div>
 	</div>
 	<div class="container">
