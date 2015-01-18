@@ -52,16 +52,9 @@ def is_haiku(msg, app, wordcounts):
 
     app.logger.warning("Starting parsing: {}".format(haiku_msg))
     try:
-        if count == 17:
-            try:
-                if check575(haiku_msg, app, wordcounts):
-                    return haiku_msg
-            except BaseException as e:
-                return "CHECK BREAKS"
+        if count == 17 and check575(haiku_msg, app, wordcounts):
+            return haiku_msg
         elif count > 17:
-            #bring punctuation back. and sexy pls
-            # sentences = msg.split('.')
-            #figure out how to split on multi chars
             stopwords = ["a", "the", "my" ] #FIXME update list
             for stopword in stopwords: 
                 i = 0
@@ -69,34 +62,19 @@ def is_haiku(msg, app, wordcounts):
                     if haiku_msg[i] == stopword:
                         haiku_msg.pop(i)
                         count -= 1
-                        try:
-                            if count == 17 and check575(haiku_msg, app, wordcounts):
-                                return haiku_msg
-                        except BaseException as e:
-                            return "CHECK BREAKS"
+                        if count == 17 and check575(haiku_msg, app, wordcounts):
+                            return haiku_msg
                         pass
-                    pass
                     i += 1
                 pass
             pass
         elif count < 17 and count >= 12:
             for i in range(17 - count):
                 haiku_msg.append("ha")
-            try:
-                if check575(haiku_msg, app, wordcounts): 
-                    return haiku_msg
-            except BaseException as e:
-                return "CHECK BREAKS"
+            if check575(haiku_msg, app, wordcounts): 
+                return haiku_msg
         app.logger.warning("Ending parsing: {}".format(haiku_msg))
     except BaseException as e:
         return "No haiku found due to exception thrown: {0} with haiku: {1}!".format(e, haiku_msg)
     return "No haiku found!"
                         
-                            
-    
-
-
-
-
-
-
