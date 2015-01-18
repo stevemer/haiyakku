@@ -11,18 +11,29 @@ body {
 	margin: 10px auto;
 }
 
-.haiyakku-text, .vote-holder {
+.haiyakku-text, 
+.haiyakku-vote {
 	text-align: center;
 	font-size: 20px;
-	min-height: 84px;
 }
 
-.haiyakku:not(:first-child)::after {
-	position: absolute;
+.haiyakku:not(:first-child)::before {
+	position: relative;
 	content: "";
-	/*bottom: 0px;*/
 	left: 0px;
+	margin-bottom: 15px;
 	width: 100%;
 	height:1px;
 	border-bottom: 1px solid rgba(0,0,0,0.3);
+}
+
+.haiyakku-vote .fa-chevron-up,
+.haiyakku-vote .fa-chevron-down {
+	width: 100%;
+}
+
+.haiyakku-vote .vote-count {
+	margin: 10px auto;
+	font-size: 30px;
+	font-family: auto;
 }
